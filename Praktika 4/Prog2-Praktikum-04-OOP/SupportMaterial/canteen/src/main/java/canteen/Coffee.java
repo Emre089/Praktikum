@@ -38,6 +38,19 @@ public class Coffee extends CanteenProduct {
         return getName() + "\t\t\t\t" + getPrice();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Coffee)) {
+            return false;
+        }
+        Coffee other = (Coffee) obj;
+        return this.getName().equals(other.getName())
+                && Arrays.equals(this.getIngredients(), other.getIngredients()); // Consider ingredient order
+    }
+
     public CoffeeIngredients[] getIngredients() {
         return ingredients;
     }

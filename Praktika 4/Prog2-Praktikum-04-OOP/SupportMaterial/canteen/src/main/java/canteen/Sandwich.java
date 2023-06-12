@@ -9,9 +9,13 @@ public class Sandwich extends CanteenProduct implements Ratable{
     private int numberOfRatings;
     public Sandwich(String name, SandwichIngredients... ingredients) throws SandwichHasNoBreadException, SandwichHasTooFewIngredientsException {
         super(name);
+        if (ingredients.length < 2) {
+            throw new SandwichHasTooFewIngredientsException("Sandwich must have at least 2 ingredients.");
+        }
         this.ingredients = ingredients;
         this.ratings = new int[20];
         this.numberOfRatings = 0;
+        validateIngredients(); // Add this line to validate the ingredients
     }
 
     private void validateIngredients() throws SandwichHasNoBreadException, SandwichHasTooFewIngredientsException {
@@ -23,11 +27,12 @@ public class Sandwich extends CanteenProduct implements Ratable{
         for (SandwichIngredients ingredient : ingredients) {
             if (ingredient == SandwichIngredients.BREAD || ingredient == SandwichIngredients.WHOLE_GRAIN_BREAD) {
                 hasBread = true;
+                break;  // Exit the loop once bread is found
             }
         }
 
         if (!hasBread) {
-            throw new SandwichHasNoBreadException("A sandwich must contain either BREAD or WHOLE_GRAIN_BREAD");
+            throw new SandwichHasNoBreadException("A sandwich must have bread");
         }
     }
 
